@@ -1,6 +1,7 @@
 import pytest
 from selenium import webdriver
-from Call.Pages import HomePage
+from Call.HomePage import HomePage
+from Call.ContactUs import ContactUsDetails
 
 @pytest.fixture
 def driver():
@@ -27,12 +28,10 @@ def test_course_button(driver):
     page.open()
     page.click_course()
 
-
 def test_contact_us(driver):
-    page = HomePage(driver)
-    page.open()
-    page.click_contact_us()
-
+    contact_page = HomePage(driver)
+    contact_page.open()
+    contact_page.click_contact_us()
 
 def test_login(driver):
     page = HomePage(driver)
@@ -111,8 +110,32 @@ def test_data_table(driver):
     page.open()
     page.click_data_tables()
 
+def test_autocomplete_textfield(driver):
+    page = HomePage(driver)
+    page.open()
+    page.click_autocomplete_textfield()
+
+def test_file_upload(driver):
+    page = HomePage(driver)
+    page.open()
+    page.click_file_upload()
+
+def test_datepicker(driver):
+    page = HomePage(driver)
+    page.open()
+    page.click_datepicker()
 
 def test_ai_playground(driver):
     page = HomePage(driver)
     page.open()
     page.click_ai_playground()
+
+
+#Contact Us Details
+def test_contact_us_details(driver):
+    ContactUsDetails(driver).open()
+    ContactUsDetails(driver).contact_page_filled()
+
+def test_contact_us_empty(driver):
+    ContactUsDetails(driver).open()
+    ContactUsDetails(driver).contact_page_empty()

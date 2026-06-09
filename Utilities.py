@@ -1,10 +1,9 @@
 import time
-
-from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
 class WindowUtils:
+
     @staticmethod
     def get_main_window(driver):
         return driver.current_window_handle
@@ -21,17 +20,8 @@ class WindowUtils:
         return driver.switch_to.window(main_window)
 
     @staticmethod
-    def click_and_verify(driver, element_id, link_url, expected_domain="webdriveruniversity.com"):
-        try:
-            if element_id:
-                button = driver.find_element(By.ID, element_id)
-            else:
-                raise NoSuchElementException
-        except NoSuchElementException:
-            if link_url:
-                button = driver.find_element(By.XPATH, link_url)
-            else:
-                raise NoSuchElementException
+    def click_and_verify(driver, link_url, expected_domain="webdriveruniversity.com"):
+        button = driver.find_element(By.XPATH, link_url)
 
         main_window = driver.current_window_handle
         expected_url = button.get_attribute("href")
@@ -41,10 +31,11 @@ class WindowUtils:
         driver.execute_script("arguments[0].click();", button)
 
         WebDriverWait(driver, 5).until(lambda d: len(d.window_handles) > 1)
-        driver.switch_to.window(driver.window_handles[-1])
+        driver.switch_to.window(driver.window_handles[1])
 
         opened_url = driver.current_url
         assert expected_domain in opened_url, f"Expected domain '{expected_domain}' not found in {opened_url}"
+
         time.sleep(2)
         driver.close()
         driver.switch_to.window(main_window)
