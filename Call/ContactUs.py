@@ -30,30 +30,71 @@ class ContactUsDetails:
         self.driver.switch_to.window(self.driver.window_handles[1])
 
         #INPUT FIELDS
-        def input_fields():
-            WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.NAME, "first_name"))).send_keys("John")
-            time.sleep(1)
-
-            WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.NAME, "last_name"))).send_keys("Doe")
-            time.sleep(1)
-
-            WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.NAME, "email"))).send_keys("john.doe@example.com")
-            time.sleep(1)
-
+        def input_fields_correct():
+            WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.NAME, "first_name"))).send_keys("Gheian")
+            WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.NAME, "last_name"))).send_keys("Agustin")
+            WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.NAME, "email"))).send_keys("gheian@example.com")
             WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.NAME, "message"))).send_keys("This is a test message.")
-            time.sleep(1)
+
+        def input_fields_incorrect_email():
+            WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.NAME, "first_name"))).send_keys("Gheian")
+            WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.NAME, "last_name"))).send_keys("Agustin")
+            WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.NAME, "email"))).send_keys("gheian")
+            WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.NAME, "message"))).send_keys("This is a test message.")
+
+        def input_fields_correct_email():
+            WebDriverWait(self.driver, 10).until(ec.presence_of_element_located((By.NAME, "email"))).send_keys("gheian@example.com")
 
         # Click Reset button
-        input_fields()
+        input_fields_correct()
         self.driver.find_element(By.XPATH, "//input[@value='RESET']").click()
         time.sleep(1)
 
-        # Click Submit button
-        input_fields()
+        # Click Submit button then Try Again when all fields are NONE
         self.driver.find_element(By.XPATH, "//input[@value='SUBMIT']").click()
+        time.sleep(1)
+        # Print the error message
+        print("\n", self.driver.find_element(By.XPATH, "//body").text)
+        self.driver.find_element(By.XPATH, "//a[contains(text(),'← Try Again')]").click()
+        time.sleep(1)
+
+        # Click Submit button then Try Again when all email is correct and the rest of the fields are NONE
+        input_fields_correct_email()
+        self.driver.find_element(By.XPATH, "//input[@value='SUBMIT']").click()
+        time.sleep(1)
+        # Print the error message
+        print("\n", self.driver.find_element(By.XPATH, "//body").text)
+        self.driver.find_element(By.XPATH, "//a[contains(text(),'← Try Again')]").click()
+        time.sleep(1)
+
+        # Click Submit button then Home when the email is incorrect
+        input_fields_incorrect_email()
+        self.driver.find_element(By.XPATH, "//input[@value='SUBMIT']").click()
+        time.sleep(1)
+        #Print the error message
+        print("\n", self.driver.find_element(By.XPATH, "//body").text)
+        self.driver.find_element(By.XPATH, "//a[normalize-space()='Home']").click()
+        time.sleep(1)
+        #Close the current tab which is the homepage from Home button
+        self.driver.close()
+
+        #Set or switch to the remaining window
+        self.driver.switch_to.window(self.driver.window_handles[0])
+        time.sleep(1)
+
+        #Open the Contact Us button again since we were sent to the Homepage
+        self.contact_us_button_ui()
+        time.sleep(1)
+
+        #SWITCH TO THE SECOND TAB THAT IS OPENED BY THE CONTACT US BUTTON
+        self.driver.switch_to.window(self.driver.window_handles[1])
         time.sleep(1)
 
         #If Email format is CORRECT
+        input_fields_correct()
+        time.sleep(1)
+        self.driver.find_element(By.XPATH, "//input[@value='SUBMIT']").click()
+        time.sleep(1)
         self.driver.find_element(By.XPATH, "//a[contains(text(),'← Back to Homepage')]").click()
         time.sleep(1)
 

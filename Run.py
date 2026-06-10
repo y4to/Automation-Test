@@ -2,6 +2,7 @@ import pytest
 from selenium import webdriver
 from Call.HomePage import HomePage
 from Call.ContactUs import ContactUsDetails
+from Call.LoginPortal import LoginPortalDetails
 
 @pytest.fixture
 def driver():
@@ -139,3 +140,8 @@ def test_contact_us_details(driver):
 def test_contact_us_empty(driver):
     ContactUsDetails(driver).open()
     ContactUsDetails(driver).contact_page_empty()
+
+#Login Portal
+def test_login_portal_incorrect_correct(driver):
+    LoginPortalDetails(driver).open()
+    LoginPortalDetails(driver).login_field_incorrect_correct()
