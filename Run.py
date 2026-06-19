@@ -3,6 +3,7 @@ from selenium import webdriver
 from Call.HomePage import HomePage
 from Call.ContactUs import ContactUsDetails
 from Call.LoginPortal import LoginPortalDetails
+from Call.ButtonClicks import ButtonClicks
 
 @pytest.fixture
 def driver():
@@ -145,3 +146,17 @@ def test_contact_us_empty(driver):
 def test_login_portal_incorrect_correct(driver):
     LoginPortalDetails(driver).open()
     LoginPortalDetails(driver).login_field_incorrect_correct()
+
+
+#Button Clicks
+def test_button_clicks(driver):
+    ButtonClicks(driver).open()
+    ButtonClicks(driver).web_element_click()
+
+def test_js_clicks(driver):
+    ButtonClicks(driver).open()
+    ButtonClicks(driver).js_click()
+
+def test_action_move_clicks(driver):
+    ButtonClicks(driver).open()
+    ButtonClicks(driver).action_move_click()
