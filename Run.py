@@ -4,6 +4,7 @@ from Call.HomePage import HomePage
 from Call.ContactUs import ContactUsDetails
 from Call.LoginPortal import LoginPortalDetails
 from Call.ButtonClicks import ButtonClicks
+from Call.ToDoList import ToDoList
 
 @pytest.fixture
 def driver():
@@ -160,3 +161,8 @@ def test_js_clicks(driver):
 def test_action_move_clicks(driver):
     ButtonClicks(driver).open()
     ButtonClicks(driver).action_move_click()
+
+#To Do List
+def test_new_to_do(driver):
+    ToDoList(driver).open()
+    ToDoList(driver).add_strike_remove()
